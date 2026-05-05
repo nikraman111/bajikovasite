@@ -1,6 +1,40 @@
 // Инициализация иконок Lucide
 lucide.createIcons();
 
+// Аккордеон FAQ — один открытый, плавная анимация
+(function () {
+  const items = document.querySelectorAll('.accordion__item');
+
+  function close(item) {
+    const answer = item.querySelector('.accordion__answer');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+    requestAnimationFrame(() => { answer.style.maxHeight = '0'; });
+    setTimeout(() => item.removeAttribute('open'), 400);
+  }
+
+  function open(item) {
+    const answer = item.querySelector('.accordion__answer');
+    item.setAttribute('open', '');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+    answer.addEventListener('transitionend', () => {
+      answer.style.maxHeight = 'none';
+    }, { once: true });
+  }
+
+  items.forEach(item => {
+    item.querySelector('summary').addEventListener('click', e => {
+      e.preventDefault();
+      const isOpen = item.hasAttribute('open');
+
+      // Закрываем все открытые
+      items.forEach(other => { if (other.hasAttribute('open')) close(other); });
+
+      // Открываем текущий если он был закрыт
+      if (!isOpen) open(item);
+    });
+  });
+})();
+
 // Навбар: на светлых секциях — тёмный текст и лёгкий фон
 (function () {
   const nav = document.querySelector('.nav');
@@ -54,5 +88,104 @@ lucide.createIcons();
   document.fonts.ready.then(() => {
     fit();
     window.addEventListener('resize', fit, { passive: true });
+  });
+})();
+
+// Слайдер "Работа со мной"
+(function () {
+  const slider = document.querySelector('.work-slider');
+  if (!slider) return;
+
+  const titleSlides = Array.from(slider.querySelectorAll('.work-slider__track--titles .work-slide'));
+  const textSlides  = Array.from(slider.querySelectorAll('.work-slider__track--texts .work-slide'));
+  const total = titleSlides.length;
+  let current = 0;
+
+  function animateOut(slide) {
+    slide.classList.remove('work-slide--active');
+    slide.classList.add('work-slide--exit');
+    setTimeout(() => { slide.classList.remove('work-slide--exit'); }, 380);
+  }
+
+  function animateIn(slide) {
+    slide.style.transform = 'translateX(100%)';
+    slide.style.opacity = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      slide.classList.add('work-slide--active');
+      slide.style.transform = '';
+      slide.style.opacity = '';
+    }));
+  }
+
+  function show(index) {
+    animateOut(titleSlides[current]);
+    animateOut(textSlides[current]);
+    animateIn(titleSlides[index]);
+    animateIn(textSlides[index]);
+    current = index;
+  }
+
+  slider.addEventListener('click', e => {
+    const btn = e.target.closest('.work-slider__arrow');
+    if (!btn) return;
+    show(btn.getAttribute('aria-label') === 'Назад'
+      ? (current - 1 + total) % total
+      : (current + 1) % total);
+  });
+
+  [...titleSlides, ...textSlides].forEach((s, i) => {
+    if (!s.classList.contains('work-slide--active')) {
+      s.style.transform = 'translateX(100%)';
+      s.style.opacity = '0';
+    }
+  });
+})();
+
+// Слайдер карточек услуг (АЙДЕНТИКА)
+(function () {
+  const slider = document.querySelector('.service-slider');
+  if (!slider) return;
+
+  const track = slider.querySelector('.service-slider__track');
+  const cards = Array.from(slider.querySelectorAll('.service-card'));
+  let current = 0;
+
+  function setTrackHeight(card) {
+    const h = card.offsetHeight;
+    track.style.height = h + 'px';
+  }
+
+  cards.forEach((c, i) => c.classList.toggle('is-active', i === 0));
+  document.fonts.ready.then(() => {
+    setTrackHeight(cards[0]);
+    window.addEventListener('resize', () => setTrackHeight(cards[current]), { passive: true });
+  });
+
+  function show(index) {
+    const prev = cards[current];
+    const next = cards[index];
+
+    prev.classList.remove('is-active');
+    prev.classList.add('is-exit');
+    setTimeout(() => prev.classList.remove('is-exit'), 380);
+
+    next.style.transform = 'translateX(100%)';
+    next.style.opacity = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      next.classList.add('is-active');
+      next.style.transform = '';
+      next.style.opacity = '';
+      setTrackHeight(next);
+    }));
+
+    current = index;
+  }
+
+  slider.addEventListener('click', e => {
+    const btn = e.target.closest('.service-slider__arrow');
+    if (!btn) return;
+    show(btn.getAttribute('aria-label') === 'Назад'
+      ? (current - 1 + cards.length) % cards.length
+      : (current + 1) % cards.length);
   });
 })();
