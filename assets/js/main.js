@@ -35,15 +35,47 @@ lucide.createIcons();
   });
 })();
 
+// Меню-оверлей
+(function () {
+  const overlay = document.getElementById('menu-overlay');
+  const openBtn = document.getElementById('menu-btn');
+  const closeBtn = document.getElementById('menu-close');
+  if (!overlay || !openBtn) return;
+
+  function open() {
+    document.body.style.overflow = 'hidden';
+    overlay.classList.add('is-open');
+    lucide.createIcons();
+  }
+
+  function close() {
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  openBtn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+
+  overlay.querySelectorAll('[data-menu-close]').forEach(el => {
+    el.addEventListener('click', close);
+  });
+})();
+
 // Навбар: на светлых секциях — тёмный текст и лёгкий фон
 (function () {
   const nav = document.querySelector('.nav');
   const hero = document.querySelector('.hero');
   if (!nav || !hero) return;
 
+  const ctaFooter = document.querySelector('.cta-footer');
+  const subscription = document.querySelector('.subscription');
+
   function updateNav() {
     const pastHero = hero.getBoundingClientRect().bottom < 64;
-    nav.classList.toggle('nav--light', pastHero);
+    const overCtaFooter = ctaFooter && ctaFooter.getBoundingClientRect().top < 64;
+    const overSubscription = subscription && subscription.getBoundingClientRect().top < 64 && subscription.getBoundingClientRect().bottom > 64;
+    const shouldBeLight = pastHero && !overCtaFooter && !overSubscription;
+    nav.classList.toggle('nav--light', shouldBeLight);
   }
 
   updateNav();
@@ -139,6 +171,61 @@ lucide.createIcons();
       s.style.opacity = '0';
     }
   });
+})();
+
+// Подмагничивание: hero и cta-footer
+(function () {
+  const heroEl    = document.querySelector('.hero');
+  const aboutEl   = document.querySelector('.about');
+  const ctaEl     = document.querySelector('.cta-footer');
+  const faqEl     = document.querySelector('.faq');
+  let timer = null;
+  let snapping = false;
+
+  function snap(fn) {
+    snapping = true;
+    fn();
+    setTimeout(() => { snapping = false; }, 1500);
+  }
+
+  function checkSnap() {
+    const vp = window.innerHeight;
+
+    // ── Hero ────────────────────────────────────
+    const hr = heroEl.getBoundingClientRect();
+    if (hr.top < 0 && hr.bottom > 0) {
+      if (-hr.top > heroEl.offsetHeight / 2) {
+        snap(() => aboutEl.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      } else {
+        snap(() => heroEl.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      }
+      return;
+    }
+
+    // ── CTA-footer ───────────────────────────────
+    const cr = ctaEl.getBoundingClientRect();
+    if (cr.top < vp && cr.bottom > 0) {
+      const visible = Math.min(cr.bottom, vp) - Math.max(cr.top, 0);
+      if (visible > vp / 2) {
+        // Больше половины видно → прижать начало к верху экрана
+        snap(() => ctaEl.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      } else {
+        // Меньше половины → низ предпоследнего блока (faq) к низу экрана
+        const fr = faqEl.getBoundingClientRect();
+        snap(() => window.scrollTo({ top: window.scrollY + fr.bottom - vp, behavior: 'smooth' }));
+      }
+    }
+  }
+
+  window.addEventListener('scroll', () => {
+    if (snapping) return;
+    clearTimeout(timer);
+    timer = setTimeout(checkSnap, 1000);
+  }, { passive: true });
+
+  // Сбрасываем snapping если пользователь сам начал скроллить
+  window.addEventListener('touchstart', () => { snapping = false; clearTimeout(timer); }, { passive: true });
+  window.addEventListener('wheel', () => { snapping = false; }, { passive: true });
 })();
 
 // Слайдер карточек услуг (АЙДЕНТИКА)
