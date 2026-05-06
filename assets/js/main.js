@@ -114,7 +114,8 @@ lucide.createIcons();
     const cs = getComputedStyle(nameEl);
     const namePx = measureText('БАЖИКОВА', cs.fontFamily, '400');
     nameEl.style.fontSize = namePx + 'px';
-    if (roleEl) roleEl.style.fontSize = (namePx * 0.46) + 'px';
+    const roleRatio = window.innerWidth >= 1024 ? 0.29 : 0.46;
+    if (roleEl) roleEl.style.fontSize = (namePx * roleRatio) + 'px';
   }
 
   document.fonts.ready.then(() => {
@@ -128,10 +129,11 @@ lucide.createIcons();
   const slider = document.querySelector('.work-slider');
   if (!slider) return;
 
-  const titleSlides = Array.from(slider.querySelectorAll('.work-slider__track--titles .work-slide'));
-  const textSlides  = Array.from(slider.querySelectorAll('.work-slider__track--texts .work-slide'));
-  const total = titleSlides.length;
+  const slides = Array.from(slider.querySelectorAll('.work-slider__track .work-slide'));
+  const total = slides.length;
   let current = 0;
+
+  function isDesktop() { return window.innerWidth >= 1024; }
 
   function animateOut(slide) {
     slide.classList.remove('work-slide--active');
@@ -150,10 +152,9 @@ lucide.createIcons();
   }
 
   function show(index) {
-    animateOut(titleSlides[current]);
-    animateOut(textSlides[current]);
-    animateIn(titleSlides[index]);
-    animateIn(textSlides[index]);
+    if (isDesktop()) return;
+    animateOut(slides[current]);
+    animateIn(slides[index]);
     current = index;
   }
 
@@ -165,7 +166,7 @@ lucide.createIcons();
       : (current + 1) % total);
   });
 
-  [...titleSlides, ...textSlides].forEach((s, i) => {
+  slides.forEach(s => {
     if (!s.classList.contains('work-slide--active')) {
       s.style.transform = 'translateX(100%)';
       s.style.opacity = '0';
@@ -226,6 +227,80 @@ lucide.createIcons();
   // Сбрасываем snapping если пользователь сам начал скроллить
   window.addEventListener('touchstart', () => { snapping = false; clearTimeout(timer); }, { passive: true });
   window.addEventListener('wheel', () => { snapping = false; }, { passive: true });
+})();
+
+// Горизонтальный скролл work-slider — sticky + scroll mapping
+(function () {
+  const wrapper = document.querySelector('.work-scroll-wrapper');
+  const section = document.querySelector('.work');
+  const track   = section && section.querySelector('.work-slider__track');
+  if (!wrapper || !section || !track) return;
+
+  function isDesktop() { return window.innerWidth >= 1024; }
+
+  function setup() {
+    if (!isDesktop()) {
+      wrapper.style.height = '';
+      track.scrollLeft = 0;
+      return;
+    }
+    const extra = track.scrollWidth - track.clientWidth;
+    wrapper.style.height = (section.offsetHeight + extra) + 'px';
+  }
+
+  function update() {
+    if (!isDesktop()) return;
+    const scrolledPast = -wrapper.getBoundingClientRect().top;
+    const max = track.scrollWidth - track.clientWidth;
+    track.scrollLeft = scrolledPast <= 0 ? 0 : scrolledPast >= max ? max : scrolledPast;
+  }
+
+  document.fonts.ready.then(function () {
+    setup();
+    window.addEventListener('resize', setup, { passive: true });
+    window.addEventListener('scroll', update, { passive: true });
+  });
+})();
+
+// Подгон шрифта CTA-заголовка на всю ширину блока
+(function () {
+  const titleEl = document.querySelector('.cta__title');
+  if (!titleEl) return;
+
+  function isDesktop() { return window.innerWidth >= 1024; }
+
+  function fit() {
+    if (!isDesktop()) { titleEl.style.fontSize = ''; return; }
+
+    const cs     = getComputedStyle(titleEl);
+    const parent = titleEl.parentElement;
+    const pcs    = getComputedStyle(parent);
+    const maxW   = parent.clientWidth
+                   - parseFloat(pcs.paddingLeft)
+                   - parseFloat(pcs.paddingRight);
+
+    const t = document.createElement('span');
+    t.style.cssText = 'position:absolute;top:-9999px;left:-9999px;white-space:nowrap;' +
+      'visibility:hidden;font-family:' + cs.fontFamily + ';font-weight:' + cs.fontWeight +
+      ';text-transform:uppercase;letter-spacing:0;';
+    t.textContent = 'ОБСУДИМ ПРОЕКТ?';
+    document.body.appendChild(t);
+
+    let lo = 16, hi = 600;
+    for (let i = 0; i < 25; i++) {
+      const mid = (lo + hi) / 2;
+      t.style.fontSize = mid + 'px';
+      if (t.offsetWidth <= maxW) lo = mid; else hi = mid;
+    }
+    document.body.removeChild(t);
+    titleEl.style.fontSize = lo + 'px';
+    titleEl.style.lineHeight = '1';
+  }
+
+  document.fonts.ready.then(() => {
+    fit();
+    window.addEventListener('resize', fit, { passive: true });
+  });
 })();
 
 // Слайдер карточек услуг (АЙДЕНТИКА)

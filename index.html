@@ -44,18 +44,34 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero__inner">
-      <div class="hero__main">
-        <div class="hero__headline">
-          <h1 class="hero__name">ВЛАДА<br>БАЖИКОВА</h1>
-          <p class="hero__role">ДИЗАЙНЕР</p>
+      <!-- Центральный невидимый прямоугольник (десктоп) -->
+      <div class="hero__center">
+        <nav class="hero__nav-links">
+          <a href="#directions" class="nav__link">АЙДЕНТИКА</a>
+          <a href="#directions" class="nav__link">ПОЛИГРАФИЯ</a>
+          <a href="#directions" class="nav__link">ПРЕЗЕНТАЦИИ</a>
+        </nav>
+        <div class="hero__main">
+          <div class="hero__headline">
+            <h1 class="hero__name">ВЛАДА<br>БАЖИКОВА</h1>
+            <p class="hero__role">ДИЗАЙНЕР</p>
+          </div>
+          <!-- Статы на мобиле -->
+          <div class="hero__stats">
+            <span>6 ЛЕТ ОПЫТА</span>
+            <span>300+ КЛИЕНТОВ</span>
+          </div>
         </div>
-        <div class="hero__stats">
-          <span>6 ЛЕТ ОПЫТА</span>
-          <span>300+ КЛИЕНТОВ</span>
+        <!-- Десктоп: статы + тэглайн -->
+        <div class="hero__bottom">
+        <span class="hero__stat">6 ЛЕТ ОПЫТА</span>
+        <p class="hero__tagline">СОЗДАЮ СОВРЕМЕННЫЙ ВИЗУАЛ ДЛЯ КОМПАНИЙ</p>
+        <span class="hero__stat hero__stat--right">300+ КЛИЕНТОВ</span>
         </div>
-      </div>
-      <p class="hero__tagline">СОЗДАЮ СОВРЕМЕННЫЙ ВИЗУАЛ ДЛЯ КОМПАНИЙ</p>
+      </div><!-- /hero__center -->
     </div>
+    <!-- Мобиле: тэглайн прямо в hero, прижат к низу -->
+    <p class="hero__tagline--mobile">СОЗДАЮ СОВРЕМЕННЫЙ ВИЗУАЛ ДЛЯ КОМПАНИЙ</p>
   </section>
 
   <!-- ABOUT -->
@@ -81,6 +97,7 @@
     <!-- Айдентика -->
     <div class="direction">
       <h3 class="direction__name">АЙДЕНТИКА</h3>
+      <p class="direction__desc">Набор готовых визуальных материалов, которые помогают оформить и продвигать бизнес</p>
       <div class="portfolio-grid portfolio-grid--2">
         <div class="portfolio-card">
           <div class="portfolio-card__img"><i data-lucide="image"></i></div>
@@ -95,7 +112,6 @@
           </div>
         </div>
       </div>
-      <p class="direction__desc">Набор готовых визуальных материалов, которые помогают оформить и продвигать бизнес</p>
       <div class="service-slider">
         <button class="service-slider__arrow" aria-label="Назад"><i data-lucide="arrow-left"></i></button>
         <div class="service-slider__track">
@@ -147,8 +163,7 @@
     </div>
 
     <!-- Полиграфия -->
-    <div class="direction">
-      <h3 class="direction__name">ПОЛИГРАФИЯ</h3>
+    <div class="direction direction--split">
       <div class="portfolio-grid portfolio-grid--1">
         <div class="portfolio-card">
           <div class="portfolio-card__img portfolio-card__img--wide"><i data-lucide="image"></i></div>
@@ -157,19 +172,21 @@
           </div>
         </div>
       </div>
-      <p class="direction__desc">Каталоги, буклеты, визитки, листовки, сертификаты, коммерческие предложения и другие печатные материалы для работы, продаж и репрезентации компании</p>
-      <ul class="direction__list">
-        <li>РАЗРАБОТКА СТРУКТУРЫ МАТЕРИАЛА</li>
-        <li>ПОДБОР ФОРМАТА, СЕТКИ И АКЦЕНТОВ</li>
-        <li>ДИЗАЙН И ВЕРСТКА</li>
-        <li>ПОДГОТОВКА К ПЕЧАТИ</li>
-        <li>ГОТОВЫЕ ФАЙЛЫ И ИСХОДНИКИ</li>
-      </ul>
+      <div class="direction__content">
+        <h3 class="direction__name">ПОЛИГРАФИЯ</h3>
+        <p class="direction__desc">Каталоги, буклеты, визитки, листовки, сертификаты, коммерческие предложения и другие печатные материалы для работы, продаж и репрезентации компании</p>
+        <ul class="direction__list">
+          <li>РАЗРАБОТКА СТРУКТУРЫ МАТЕРИАЛА</li>
+          <li>ПОДБОР ФОРМАТА, СЕТКИ И АКЦЕНТОВ</li>
+          <li>ДИЗАЙН И ВЕРСТКА</li>
+          <li>ПОДГОТОВКА К ПЕЧАТИ</li>
+          <li>ГОТОВЫЕ ФАЙЛЫ И ИСХОДНИКИ</li>
+        </ul>
+      </div>
     </div>
 
     <!-- Презентации -->
-    <div class="direction">
-      <h3 class="direction__name">ПРЕЗЕНТАЦИИ</h3>
+    <div class="direction direction--split">
       <div class="portfolio-grid portfolio-grid--1">
         <div class="portfolio-card">
           <div class="portfolio-card__img portfolio-card__img--wide"><i data-lucide="image"></i></div>
@@ -178,18 +195,20 @@
           </div>
         </div>
       </div>
-      <p class="direction__desc">Обложка и внутренние слайды в едином стиле</p>
-      <ul class="direction__list">
-        <li>СТРУКТУРА И ЛОГИКА МАТЕРИАЛА</li>
-        <li>ДИЗАЙН И ВЕРСТКА</li>
-        <li>ОФОРМЛЕНИЕ ИНФОГРАФИКИ</li>
-        <li>ГОТОВЫЕ ФАЙЛЫ И ИСХОДНИКИ</li>
-      </ul>
+      <div class="direction__content">
+        <h3 class="direction__name">ПРЕЗЕНТАЦИИ</h3>
+        <p class="direction__desc">Обложка и внутренние слайды в едином стиле</p>
+        <ul class="direction__list">
+          <li>СТРУКТУРА И ЛОГИКА МАТЕРИАЛА</li>
+          <li>ДИЗАЙН И ВЕРСТКА</li>
+          <li>ОФОРМЛЕНИЕ ИНФОГРАФИКИ</li>
+          <li>ГОТОВЫЕ ФАЙЛЫ И ИСХОДНИКИ</li>
+        </ul>
+      </div>
     </div>
 
     <!-- Другие услуги -->
-    <div class="direction direction--last">
-      <h3 class="direction__name">ДРУГИЕ УСЛУГИ</h3>
+    <div class="direction direction--last direction--split">
       <div class="portfolio-grid portfolio-grid--1">
         <div class="portfolio-card">
           <div class="portfolio-card__img portfolio-card__img--wide"><i data-lucide="image"></i></div>
@@ -198,12 +217,15 @@
           </div>
         </div>
       </div>
-      <ul class="direction__list direction__list--dotted">
-        <li>УПАКОВКА</li>
-        <li>НАРУЖНАЯ РЕКЛАМА</li>
-        <li>СУВЕНИРНАЯ ПРОДУКЦИЯ</li>
-        <li>ПОДГОТОВКА К ПЕЧАТИ ИЛИ ПУБЛИКАЦИИ</li>
-      </ul>
+      <div class="direction__content">
+        <h3 class="direction__name">ДРУГИЕ УСЛУГИ</h3>
+        <ul class="direction__list direction__list--dotted">
+          <li>УПАКОВКА</li>
+          <li>НАРУЖНАЯ РЕКЛАМА</li>
+          <li>СУВЕНИРНАЯ ПРОДУКЦИЯ</li>
+          <li>ПОДГОТОВКА К ПЕЧАТИ ИЛИ ПУБЛИКАЦИИ</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -241,31 +263,37 @@
   </section>
 
   <!-- РАБОТА СО МНОЙ -->
+  <div class="work-scroll-wrapper">
   <section class="work" id="work">
     <h2 class="section-title">РАБОТА СО МНОЙ</h2>
 
     <div class="work-slider">
-      <!-- Заголовки — анимируются -->
-      <div class="work-slider__track work-slider__track--titles">
-        <div class="work-slide work-slide--active"><h3 class="work-slide__title">БЕЗЛИМИТНЫЕ ПРАВКИ</h3></div>
-        <div class="work-slide"><h3 class="work-slide__title">ФИКСИРОВАННАЯ ЦЕНА</h3></div>
-        <div class="work-slide"><h3 class="work-slide__title">ПОДГОТОВКА К ПЕЧАТИ</h3></div>
-        <div class="work-slide"><h3 class="work-slide__title">БЕЗ ШАБЛОНОВ И СТОКОВ</h3></div>
-        <div class="work-slide"><h3 class="work-slide__title">СИСТЕМНОСТЬ</h3></div>
+      <div class="work-slider__track">
+        <div class="work-slide work-slide--active">
+          <h3 class="work-slide__title">БЕЗЛИМИТНЫЕ ПРАВКИ</h3>
+          <p class="work-slide__text">Правки не превращаются в повод для лишних доплат и бесконечных согласований на каждом шаге.</p>
+        </div>
+        <div class="work-slide">
+          <h3 class="work-slide__title">ФИКСИРОВАННАЯ ЦЕНА</h3>
+          <p class="work-slide__text">Стоимость формируется заранее без изменения в процессе работы.</p>
+        </div>
+        <div class="work-slide">
+          <h3 class="work-slide__title">ПОДГОТОВКА К ПЕЧАТИ</h3>
+          <p class="work-slide__text">Корректная подготовка материалов без дополнительных скрытых доплат.</p>
+        </div>
+        <div class="work-slide">
+          <h3 class="work-slide__title">БЕЗ ШАБЛОНОВ И СТОКОВ</h3>
+          <p class="work-slide__text">Каждое решение разрабатывается под конкретную задачу, а не собирается из готовых универсальных заготовок.</p>
+        </div>
+        <div class="work-slide">
+          <h3 class="work-slide__title">СИСТЕМНОСТЬ</h3>
+          <p class="work-slide__text">Отдельные макеты формируют общую визуальную логику бренда.</p>
+        </div>
       </div>
-      <!-- Nav — статичный -->
       <div class="work-slider__nav">
         <button class="work-slider__arrow" aria-label="Назад"><i data-lucide="arrow-left"></i></button>
         <hr class="work-slider__line">
         <button class="work-slider__arrow" aria-label="Вперёд"><i data-lucide="arrow-right"></i></button>
-      </div>
-      <!-- Тексты — анимируются -->
-      <div class="work-slider__track work-slider__track--texts">
-        <div class="work-slide work-slide--active"><p class="work-slide__text">Правки не превращаются в повод для лишних доплат и бесконечных согласований на каждом шаге.</p></div>
-        <div class="work-slide"><p class="work-slide__text">Стоимость формируется заранее без изменения в процессе работы.</p></div>
-        <div class="work-slide"><p class="work-slide__text">Корректная подготовка материалов без дополнительных скрытых доплат.</p></div>
-        <div class="work-slide"><p class="work-slide__text">Каждое решение разрабатывается под конкретную задачу, а не собирается из готовых универсальных заготовок.</p></div>
-        <div class="work-slide"><p class="work-slide__text">Отдельные макеты формируют общую визуальную логику бренда.</p></div>
       </div>
     </div>
 
@@ -281,6 +309,7 @@
       </ol>
     </div>
   </section>
+  </div>
 
   <!-- FAQ -->
   <section class="faq" id="faq">
@@ -312,7 +341,7 @@
   <!-- CTA + FOOTER -->
   <div class="cta-footer">
     <section class="cta" id="contact">
-      <h2 class="cta__title">ОБСУДИМ<br>ПРОЕКТ?</h2>
+      <h2 class="cta__title">ОБСУДИМ ПРОЕКТ?</h2>
       <button class="btn btn--outline-light">ЗАПОЛНИТЬ БРИФ</button>
     </section>
 
